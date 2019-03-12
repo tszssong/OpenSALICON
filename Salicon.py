@@ -6,7 +6,7 @@ import sys
 import time
 import scipy.ndimage 
 import scipy.misc
-sys.path.insert(0, 'caffe/install/python') # PATH TO CAFFE PYTHON INSTALL
+sys.path.insert(0,'/nfs/wangshanhu/caffe/python/')
 import caffe
 caffe.set_mode_gpu()
 caffe.set_device(1)
