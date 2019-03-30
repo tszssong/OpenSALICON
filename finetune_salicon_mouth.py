@@ -33,23 +33,7 @@ for line in open(listpath):
     im = im / 255
     im = im.astype(np.dtype(np.float32))
     coarse_imgs.append(im)
-# now do the fine images
-#for i in range(1001, 1701):
-for line in open(listpath):
-    imgname = line.strip()
-    im = np.array(Image.open(training_data_path + 'fine_images/' + imgname), dtype=np.float32) # in RGB
-    # put channel dimension first
-    im = np.transpose(im, (2,0,1))
-    # switch to BGR
-    im = im[::-1, :, :]
-    # subtract mean
-    im = im - MEAN_VALUE
-    im = im[None,:]
-    assert(im.shape == (1,3,1200,1600))
-    # TEST - CONVERT TO DOUBLE
-    im = im / 255
-    im = im.astype(np.dtype(np.float32))
-    fine_imgs.append(im)
+
 # load fixations
 #for i in range(1001, 1701):
 for line in open(listpath):
@@ -61,8 +45,8 @@ for line in open(listpath):
     im = im / 255
     im = im.astype(np.dtype(np.float32))
     fix_imgs.append(im)
-print len(coarse_imgs), len(fine_imgs), len(fix_imgs)
-assert(len(fix_imgs) == len(fine_imgs) and len(fine_imgs) == len(coarse_imgs))
+print len(coarse_imgs), len(fix_imgs)
+assert(len(fix_imgs) == len(coarse_imgs))
 #assert(len(fix_imgs) == 700)
 # load the solver
 solver = caffe.SGDSolver('solver_new.prototxt')
@@ -73,11 +57,8 @@ while time.time() - start_time < 43200:
     batch = np.random.permutation(len(fix_imgs))
     for i in range(0, len(batch)):
         idx_counter = idx_counter + 1
-#        print 'working on ' + str(i) + ' of ' + str(len(batch))
-        fine_img_to_process = fine_imgs[batch[i]]
         coarse_img_to_process = coarse_imgs[batch[i]]
         fix_img_to_process = fix_imgs[batch[i]]
-        solver.net.blobs['fine_scale'].data[...] = fine_img_to_process
         solver.net.blobs['coarse_scale'].data[...] = coarse_img_to_process
         solver.net.blobs['ground_truth'].data[...] = fix_img_to_process
         solver.step(1)

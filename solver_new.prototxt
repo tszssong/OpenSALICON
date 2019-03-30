@@ -1,4 +1,5 @@
-train_net: "finetune_salicon.prototxt"
+train_net: "finetune_salicon_mouth.prototxt"
+#train_net: "finetune_salicon_small.prototxt"
 base_lr: 0.000001
 lr_policy: "step"
 gamma: 0.1
@@ -15,6 +16,4 @@ snapshot: 0
 snapshot_prefix: "finetuned_salicon"
 #debug_info: true
 solver_mode: GPU
-solver_type: ADADELTA
-delta: 1e-6
 
