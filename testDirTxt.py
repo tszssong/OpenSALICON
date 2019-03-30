@@ -2,7 +2,7 @@ import sys, os
 os.environ['GLOG_minloglevel'] = '3'
 import cv2
 import numpy as np
-from Salicon import Salicon
+from SaliconMouth import Salicon
 root = "/gpu/zhengmeisong/salient/data/"
 f = open(root + sys.argv[1])
 sal = Salicon()
@@ -17,15 +17,14 @@ for line in f:
     success, im = video.read()
     numFrame = 0
     while success:
-        oriname = videoname + '_o' + str(numFrame) + '.jpg'
-        salname = videoname + '_s' + str(numFrame) + '.jpg'
-        txtname = videoname + '_' + str(numFrame) + '.txt'
+        if numFrame%50==0:
+          oriname = videoname + '_o' + str(numFrame) + '.jpg'
+          salname = videoname + '_s' + str(numFrame) + '.jpg'
+          cv2.imwrite(outDir + oriname, im)
+          smap = sal.compute_saliency(outDir + oriname)  # open salient need file path
+          cv2.imwrite(outDir + salname, smap*255)
+          print oriname, salname, "saved in ", outDir
         numFrame += 1
-        cv2.imwrite(outDir + oriname, im)
-        smap = sal.compute_saliency(outDir + oriname)  # open salient need file path
-        cv2.imwrite(outDir + salname, smap*255)
-        np.savetxt(outDir + txtname, smap*255, fmt="%d")
-        print oriname, salname, txtname, "saved in ", outDir
         success, im = video.read()
     
 

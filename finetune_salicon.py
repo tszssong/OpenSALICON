@@ -4,7 +4,7 @@ import pdb
 import matplotlib.pyplot as plt
 import sys
 import time
-sys.path.insert(0, '/Users/momo/wkspace/caffe_space/detection/caffe/python') # UPDATE YOUR CAFFE PATH HERE
+sys.path.insert(0, '/nfs/zhengmeisong/wkspace/caffe/python') # UPDATE YOUR CAFFE PATH HERE
 import caffe
 caffe.set_mode_cpu()
 #caffe.set_mode_gpu()
@@ -12,10 +12,10 @@ caffe.set_mode_cpu()
 fine_imgs = []
 coarse_imgs = []
 fix_imgs = []
-training_data_path = '/Users/momo/Desktop/wy/wy_s/' # PATH TO YOUR TRAINING DATA
+training_data_path = '/gpu/zhengmeisong/salient/training_data/wy_s/' # PATH TO YOUR TRAINING DATA
 MEAN_VALUE = np.array([103.939, 116.779, 123.68])   # BGR
 MEAN_VALUE = MEAN_VALUE[:,None, None]
-listpath = '/Users/momo/Desktop/wy/wy_ss.txt'
+listpath = '/gpu/zhengmeisong/salient/training_data/wy_s.txt'
 #for i in range(1001, 1701):
 for line in open(listpath):
     imgname = line.strip()
@@ -65,8 +65,8 @@ print len(coarse_imgs), len(fine_imgs), len(fix_imgs)
 assert(len(fix_imgs) == len(fine_imgs) and len(fine_imgs) == len(coarse_imgs))
 #assert(len(fix_imgs) == 700)
 # load the solver
-solver = caffe.SGDSolver('solver_new.prototxt')
-solver.net.copy_from('fist13cls_iter_370000.caffemodel') # untrained.caffemodel
+solver = caffe.SGDSolver('solver_small.prototxt')
+#solver.net.copy_from('fist13cls_iter_370000.caffemodel') # untrained.caffemodel
 start_time = time.time()
 idx_counter = 0
 while time.time() - start_time < 43200:
@@ -82,5 +82,5 @@ while time.time() - start_time < 43200:
         solver.net.blobs['ground_truth'].data[...] = fix_img_to_process
         solver.step(1)
         if int(time.time() - start_time) % 10000 == 0:
-            solver.net.save('../train_output/finetuned_salicon_{}.caffemodel'.format(idx_counter))
-    solver.net.save('../train_output/finetuned_salicon_{}.caffemodel'.format(idx_counter))
+            solver.net.save('../train_output/small_salicon_{}.caffemodel'.format(idx_counter))
+    solver.net.save('../train_output/small_salicon_{}.caffemodel'.format(idx_counter))

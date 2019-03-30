@@ -1,5 +1,4 @@
-train_net: "finetune_salicon_mouth.prototxt"
-#train_net: "finetune_salicon_small.prototxt"
+train_net: "finetune_salicon_small.prototxt"
 base_lr: 0.01
 lr_policy: "step"
 #lr_policy: "step"
