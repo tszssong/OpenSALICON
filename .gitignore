@@ -1,0 +1,5 @@
+train_output/
+*.caffemodel
+*.jpg
+*.pyc
+*.idea
