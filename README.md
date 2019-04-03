@@ -13,3 +13,5 @@
         测试工程路径下'face.jpg'对应显著图
     2. testPicDir.py 
         批量测试静态图显著性，test.txt保存测试图片名
+    3. get_cc_lk.py
+        计算模型指标，cc和kl
