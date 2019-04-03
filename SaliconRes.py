@@ -10,7 +10,7 @@ import scipy.misc
 sys.path.insert(0,'/nfs/wangshanhu/caffe/python/')
 import caffe
 caffe.set_mode_gpu()
-caffe.set_device(7)
+caffe.set_device(1)
 MEAN_VALUE = np.array([103.939, 116.779, 123.68])   # BGR
 MEAN_VALUE = MEAN_VALUE[:,None, None]
 COARSE_SCALE = np.array([1,3,600,800], dtype=np.float32)
