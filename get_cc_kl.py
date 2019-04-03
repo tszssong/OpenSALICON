@@ -40,13 +40,15 @@ cc_list = []
 kl_list = []
 for line in filelist.readlines():
     imgname = line.strip()
-    map = sal.compute_saliency_ori(fromDir + 'coarse_images/' + imgname)
-    gt = cv2.imread(gtsDir + imgname)
+    re = sal.compute_saliency_ori(fromDir + 'coarse_images/' + imgname)
+    re = re*255
+    gt = cv2.imread(fromDir +'fixation_images/' + imgname)
+    gt,g,r = cv2.split(gt)
     kl = calc_kl_score(gt, re)
     kl_list.append(kl)
     cc = calc_cc_score(gt, re)
     cc_list.append(cc)
     print "%15s"%(imgname), "%.2f"%(cc), "%.2f"%(kl)
     if SAVE_PIC:
-        cv2.imwrite(toDir_small + imgname, map*255)
+        cv2.imwrite(toDir_small + imgname, re)
 print "ave_cc = %.3f, ave_kl = %.3f"%( np.mean(cc_list), np.mean(kl_list) )
