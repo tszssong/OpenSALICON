@@ -2,10 +2,6 @@
 ###### 脚本说明  
     1. testDirTxtOriOut.py list.txt
         为x264编码提供50x38的显著图与对应txt, list.txt保存视频名
-    2. testPic.py
-        测试工程路径下'face.jpg'对应显著图
-    3. testPicDir.py 
-        批量测试静态图显著性，test.txt保存测试图片名
         
 ###### 训练  
     finetune_salicon_res.py  预训练模型在脚本内部指定 
